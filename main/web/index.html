@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<!--suppress HtmlFormInputWithoutLabel -->
+<html>
+
+<head>
+    <title>ESP32 setup</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+            background-color: lightsteelblue;
+        }
+
+        .mm_content {
+            padding: 3.5em 0;
+            min-width: 50em;
+            width: 100%;
+        }
+
+        .mm_tab {
+            display: none;
+            padding: 6px;
+            border: none;
+            border-top: none;
+        }
+
+        .mm_nav {
+            overflow: hidden;
+            background-color: darkblue;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3.5em;
+        }
+
+        .mm_nav button {
+            color: white;
+            float: left;
+            display: block;
+            background-color: inherit;
+            border: none;
+            outline: none;
+            text-decoration: none;
+            text-align: center;
+            padding: 14px 16px;
+            font-size: 1.7em;
+            transition: 0.5s;
+        }
+
+        .mm_nav button:hover {
+            background-color: blue;
+        }
+
+        .mm_nav button.active {
+            background-color: darkgreen;
+        }
+
+        .mm_label {
+            color: black;
+            text-align: right;
+            font-size: 1.5em;
+            margin-left: 0.5em;
+            margin-top: 1em;
+            min-width: 8em;
+        }
+
+        .mm_label_val {
+            background: darkgray;
+            color: white;
+            font-size: 1.5em;
+            padding: .5em;
+            margin: .5em;
+            min-width: 2em;
+            border-radius: 10px;            
+        }
+        
+        label b {
+            color: lightgreen;
+            background: darkgray;
+        }
+        
+        .mm_input {
+            background: darkgray;
+            color: white;
+            border-color: blue;
+            border-width: 1px;
+            font-size: 1.5em;
+            padding: .5em;
+            margin: .5em;
+            width: 100%;
+            min-width: 2em;
+            border-radius: 10px;
+        }
+
+        .mm_input:required {
+            box-shadow: 4px 4px 10px rgba(226, 129, 129, 0.85);
+        }
+
+        .mm_input:focus {
+            background: rgb(105, 104, 104);
+            outline: none;
+        }
+
+        .mm_input::invalid {
+            border-color: red;
+            border-width: 2px;
+        }
+
+        .mm_button {
+            outline: none;
+            color: black;
+            border: none;
+            padding: .5em;
+            margin: 0.5em;
+            font-size: 1.5em;
+            min-width: 7em;
+            box-shadow: 0 10px 10px 0 lightgoldenrodyellow, 0 6px 20px 0 lightgoldenrodyellow;
+        }
+
+        .mm_button:active {
+            background-color: darkgreen;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+
+        .mm_button_action {
+            background: lightseagreen;
+            border-radius: 5px;
+        }
+
+        .mm_button_action_set {
+            background: lightsalmon;
+            border-radius: 5px;
+        }
+
+        .mm_textarea {
+            background: darkgray;
+            color: white;
+            border-color: blue;
+            border-width: 1px;
+            font-size: 1.5em;
+            padding: .5em;
+            margin: .5em;
+            width: 100%;
+            min-width: 2em;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mm_nav">
+        <button class="tabbtn" onclick="switchTab(event, 'config_ap')" id="defTab">Config</button>
+        <button class="tabbtn" onclick="switchTab(event, 'state_vals')">State</button>
+    </div>
+    <div class="mm_content">
+        <div id="config_ap" class="mm_tab">
+            <div style="display: flex; flex-direction: column;" id="config_vals">
+                <div style="display: flex; flex-direction: row;">
+                    <label class="mm_label">Time Zone:</label>
+                    <input class="mm_input" type="text" placeholder="GMT-7" id="timezone" required/>
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <label class="mm_label">Alarm SMS period:</label>
+                    <input class="mm_input" type="number" id="alarm_sms_period" required/>
+                    <label class="mm_label">Web alive (minutes):</label>
+                    <input class="mm_input" type="number" id="web_host_active_period" required/>                    
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <label class="mm_label">hang up (0/1):</label>
+                    <input class="mm_input" type="number" id="do_hang_up" required/>                    
+                    <label class="mm_label">Send alarm SMS (0/1):</label>
+                    <input class="mm_input" type="number" id="stop_alrm_sms_send" required/>                                        
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <label class="mm_label">Tr.Gyro low:</label>
+                    <input class="mm_input" type="number" id="treshold_low_frq" required/>
+                    <label class="mm_label">Tr.Gyro hight:</label>
+                    <input class="mm_input" type="number" id="treshold_hight_frq" required/>
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <label class="mm_label">Tr.low voltage:</label>
+                    <input class="mm_input" type="number" id="treshold_low_volt" required/>
+                    <label class="mm_label">Tr.low voltage step:</label>
+                    <input class="mm_input" type="number" id="treshold_low_volt_step" required/>
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <label class="mm_label">Alarm phones:</label>
+                    <input class="mm_input" type="text" placeholder="+7xxxxx;+7xxxxx" id="alarm_phones" required/>
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <label class="mm_label">Enabled phones:</label>
+                    <input class="mm_input" type="text" placeholder="+7xxxxx;+7xxxxx" id="enabled_phones" required/>
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <label class="mm_label">BLE permited:</label>
+                    <input class="mm_input" type="text" placeholder="FF0501FFFF1128B1946602010300,77BF89F1" id="ble_enabled" required/>
+                </div>
+                <button onclick="saveconfigValues()" class="mm_button_action_set mm_button">Update configuration</button>
+                <button onclick="loadData('/config')" class="mm_button_action_set mm_button">Reload configuration</button>
+            </div>
+        </div>
+        <div id="state_vals" class="mm_tab" style="display: flex; flex-direction: column;">
+            <div style="display: flex; flex-direction: column;">
+                <div style="display: flex; flex-direction: row;">
+                    <label class="mm_label">GSM SIM in slot:</label>
+                    <label class="mm_label_val" id="gsm_sim_in_slot"></label>
+                    <label class="mm_label">GSM signal level:</label>
+                    <label class="mm_label_val" id="gsm_signal_level"></label>
+                    <label class="mm_label">Power voltage:</label>
+                    <label class="mm_label_val" id="gsm_voltage"></label>
+                    <label class="mm_label">Gyro noise level:</label>
+                    <label class="mm_label_val" id="gyro_low_frq"></label>
+                    <label class="mm_label_val" id="gyro_hight_frq"></label>
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <label class="mm_label">Last sms phone:</label>
+                    <label class="mm_label_val" id="sms_phone"></label>
+                    <label class="mm_label">Last sms body:</label>
+                    <label class="mm_label_val" id="sms_body"></label>
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <label class="mm_label">All BLE around:</label>
+                    <label class="mm_textarea" id="ble_detected"></label>
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <label class="mm_label">Permited BLE around:</label>
+                    <label class="mm_textarea" id="ble_permited"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    //==================================================================================
+    function switchTab(event, tabName) {
+        var tabs = document.getElementsByClassName('mm_tab');
+        for (var i = 0; i < tabs.length; i++) {
+            tabs[i].style.display = "none";
+        }
+        var tabbtn = document.getElementsByClassName('tabbtn');
+        for (var i = 0; i < tabs.length; i++) {
+            tabbtn[i].className = tabbtn[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        event.currentTarget.className += " active";
+    }
+    //==================================================================================
+    function loadData(url) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onload = function () {
+            var status = xhr.status;
+            if (status !== 200) {
+                alert('error [' + status + ']: ' + xhr.response);
+            } else {
+                let data = JSON.parse(xhr.responseText);	    
+                Object.keys(data).forEach(key => {
+                    let a = document.getElementById(key);	
+                    let v = data[key];
+                    if(a != null) {
+                        if(a instanceof HTMLLabelElement) {
+                            a.innerHTML = v;
+                        } else if(a instanceof HTMLInputElement) {
+                            a.value = v;
+                        } else {
+                            console.log(`undefined ${a.constructor.name} for ${key}: ${data[key]}`);    
+                        }
+                    } else {
+                        console.log(`No input for ${key}: ${data[key]}`);
+                    }
+               });
+            }
+        };
+        xhr.onerror = function () {
+            alert('loading error');
+        }
+        xhr.send();
+    }
+
+    function saveconfigValues() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", '/config', true);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onload = function () {
+            if (xhr.status !== 200) {
+                alert(xhr.status + ': ' + xhr.statusText);
+            }
+        }
+        let list = document.getElementById('config_vals').getElementsByTagName('input');
+        let data = {};
+        for(i=0; i < list.length; i++) {
+            if(list[i].type == 'number') {
+                data[list[i].id] = list[i].valueAsNumber;
+            } else {
+                data[list[i].id] = list[i].value;
+            }            
+        }        
+        xhr.send(JSON.stringify(data));
+    }
+
+    //==================================================================================
+    loadData('/config');
+    loadData('/state');    
+    document.querySelector('#defTab').click();
+</script>
+
+
+</html>

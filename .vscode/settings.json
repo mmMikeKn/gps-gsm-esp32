@@ -1,0 +1,13 @@
+{
+    "C_Cpp.intelliSenseEngine": "default",
+    "idf.espIdfPathWin": "D:/Espressif/frameworks/esp-idf-v5.4/",
+    "idf.openOcdConfigs": [
+        "board/esp32-wrover-kit-3.3v.cfg"
+    ],
+    "idf.portWin": "COM5",
+    "idf.toolsPathWin": "D:\\Espressif",
+    "idf.flashType": "UART",
+    "files.associations": {
+        "sms_cmd.h": "c"
+    }
+}

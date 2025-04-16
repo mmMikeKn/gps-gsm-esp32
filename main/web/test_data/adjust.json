@@ -1,0 +1,11 @@
+﻿{
+        "timezone":     7,
+        "alarm_sms_period":     60,
+        "treshold_low_frq":    50,
+        "treshold_hight_frq":  150,
+        "treshold_low_volt":   390,
+        "treshold_low_volt_step":      10,
+        "alarm_phones": "+79139864192",
+        "enabled_phones":       "",
+        "ble_enabled":  "FF0501FFFF1128B1946602010300,77BF89F1"
+}
