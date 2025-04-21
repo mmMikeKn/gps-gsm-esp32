@@ -398,7 +398,7 @@ void app_main(void)
             continue;
         }
         //=====================================================
-        if (!IS_LOOP_STATE(BLE_SCAN_STATE_ON_ALARM) && !IS_LOOP_STATE(BLE_AUTHORIZED) &&
+        if (!is_acc_on() && !IS_LOOP_STATE(BLE_SCAN_STATE_ON_ALARM) && !IS_LOOP_STATE(BLE_AUTHORIZED) &&
             current_state_vals.last_alarm_sms_time < esp_timer_get_time() &&
             gyroscope_state.ready_for_check &&
             (gyroscope_state.max_dt_between_frame > config_guard.treshold_low_frq && gyroscope_state.max_dt_in_frame > config_guard.treshold_hight_frq))
