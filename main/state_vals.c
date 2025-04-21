@@ -33,6 +33,7 @@ char *config_to_json()
     cJSON *root = cJSON_CreateObject();
     cJSON_AddItemToObject(root, "timezone", cJSON_CreateString(config_guard.timezone));
     cJSON_AddNumberToObject(root, "do_hang_up", config_guard.do_hang_up);
+    cJSON_AddNumberToObject(root, "do_route_unknown_sms", config_guard.do_route_unknown_sms);
     cJSON_AddNumberToObject(root, "alarm_sms_period", config_guard.alarm_sms_period);
     cJSON_AddNumberToObject(root, "web_host_active_period", config_guard.web_host_active_period);
     cJSON_AddNumberToObject(root, "stop_alrm_sms_send", config_guard.stop_alrm_sms_send);
@@ -120,6 +121,8 @@ void parse_config_json(char *json)
         strncpy(config_guard.timezone, item->valuestring, sizeof(config_guard.timezone) - 1);
     }
     config_guard.do_hang_up = cJSON_GetObjectItem(root, "do_hang_up")->valueint;
+    config_guard.do_route_unknown_sms = cJSON_GetObjectItem(root, "do_route_unknown_sms")->valueint;
+    
     config_guard.alarm_sms_period = cJSON_GetObjectItem(root, "alarm_sms_period")->valueint;
     if (config_guard.alarm_sms_period < (BLE_SCAN_TIME_SEC + 2))
     {

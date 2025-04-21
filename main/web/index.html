@@ -161,17 +161,19 @@
                 <div style="display: flex; flex-direction: row;">
                     <label class="mm_label">Time Zone:</label>
                     <input class="mm_input" type="text" placeholder="GMT-7" id="timezone" required/>
-                </div>
-                <div style="display: flex; flex-direction: row;">
                     <label class="mm_label">Alarm SMS period:</label>
                     <input class="mm_input" type="number" id="alarm_sms_period" required/>
-                    <label class="mm_label">Web alive (minutes):</label>
-                    <input class="mm_input" type="number" id="web_host_active_period" required/>                    
                 </div>
                 <div style="display: flex; flex-direction: row;">
+                    <label class="mm_label">Web alive (minutes):</label>
+                    <input class="mm_input" type="number" id="web_host_active_period" required/>                    
                     <label class="mm_label">hang up (0/1):</label>
                     <input class="mm_input" type="number" id="do_hang_up" required/>                    
-                    <label class="mm_label">Send alarm SMS (0/1):</label>
+                </div>
+                <div style="display: flex; flex-direction: row;">
+                    <label class="mm_label">routes sms (0/1):</label>
+                    <input class="mm_input" type="number" id="do_route_unknown_sms" required/>                    
+                    <label class="mm_label">disable alarm SMS (0/1):</label>
                     <input class="mm_input" type="number" id="stop_alrm_sms_send" required/>                                        
                 </div>
                 <div style="display: flex; flex-direction: row;">

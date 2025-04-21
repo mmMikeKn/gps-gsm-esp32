@@ -196,6 +196,7 @@ static const char *help_str = "I[nfo]\n"
                               "B[le]\n"
                               "E[nableBle] <hex1,hex2,..>\n"
                               "H[ang up]0,1\n"
+                              "R[oute]0,1\n"
                               "Reboot";
 
 void handle_cmd_sms()
@@ -203,7 +204,7 @@ void handle_cmd_sms()
     gsm_state.has_sms = false;
     if (is_phone_not_permited(gsm_state.sms_phone_in))
     {
-        if (config_guard.alarm_phones_num > 0)
+        if (config_guard.alarm_phones_num > 0 && config_guard.do_route_unknown_sms)
         {
             snprintf(gsm_state.sms_body_out, sizeof(gsm_state.sms_body_out) - 1, "route [%s]: ", gsm_state.sms_phone_in);
             int l = strlen(gsm_state.sms_body_out); // TODO if long sms..
@@ -223,6 +224,12 @@ void handle_cmd_sms()
             vTaskDelay(2000 / portTICK_PERIOD_MS);
             esp_restart();
             return;
+        }
+        else if (parse_sms_arg(0, &val))
+        {
+            config_guard.do_route_unknown_sms = val != 0;
+            do_save_config = true;
+            add_config_in_sms();
         }
         break;
     case 'a': // Alarm sms on|off

@@ -40,7 +40,7 @@ typedef struct
     char enabled_phones[MAX_ENABLED_PHONES_NUM * MAX_PHONE_SZ + MAX_ENABLED_PHONES_NUM];
     char ble_enabled[MAX_BLE_INFO_SZ];
     bool stop_alrm_sms_send;
-    bool do_hang_up;
+    bool do_hang_up, do_route_unknown_sms;
     int8_t magic_val;
 } config_guard_t;
 
